@@ -68,17 +68,18 @@ else
 fi
 wget -qO - 'https://raw.githubusercontent.com/jericho99/alike/main/host/a3.rev.num' > /usr/local/sbin/rev.num
 echo 
-if [ ${sysUpdate} -eq 1 ]; then
-	echo "Updating A3 system packages"
-	sudo apk update
-	sudo apk add php7-pdo_sqlite
-	sudo apk add --upgrade apk-tools
-	sudo apk upgrade --available
-	sudo apk upgrade openssh
-	sudo apk add cifs-utils
-	#sudo apk -U upgrade
-	sudo /sbin/reboot
-fi
+
+#if [ ${sysUpdate} -eq 1 ]; then
+#	echo "Updating A3 system packages"
+#	sudo apk update
+#	sudo apk add php7-pdo_sqlite
+#	sudo apk add --upgrade apk-tools
+#	sudo apk upgrade --available
+#	sudo apk upgrade openssh
+#	sudo apk add cifs-utils
+#	#sudo apk -U upgrade
+#	sudo /sbin/reboot
+#fi
 
 
 if [ ${alikeUpdate} -eq 1 ]; then
