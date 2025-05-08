@@ -669,11 +669,11 @@ function handleNewDS($type){
 
 function registerADS(){
 	echo "Please wait, refreshing system libraries...";
-	exec("sudo docker pull quadricsoftware/a3-tool");
+	exec("sudo docker pull jericho991/a3-tool");
 	echo "Complete.\n";
 	$ip = getIP();
 	$hip = "hostIP=$ip";
-	$out =  managedRun("sudo docker run -v /mnt/ads:/ads quadricsoftware/a3-tool register $hip");
+	$out =  managedRun("sudo docker run -v /mnt/ads:/ads jericho991/a3-tool register $hip");
 	if($out->code != 0){
 		echo "Error creating new ADS!\n";
 		echo "Code: $out->code, Error: $out->stdOut ($out->stdErr)";
@@ -685,7 +685,7 @@ function registerADS(){
 
 function initDS($type){
 	echo "Please wait, refreshing system libraries...";
-	exec("sudo docker pull quadricsoftware/a3-tool");
+	exec("sudo docker pull jericho991/a3-tool");
 	echo "Complete.\n";
 	echo "Creating a new $type\n";
 	if($type=="ads"){
@@ -719,13 +719,13 @@ function initDS($type){
 		$ip = getIP();
 		$hip = "hostIP=$ip";
 		echo "Building ADS, please wait...\n";
-		echo shell_exec("sudo docker run -v /mnt/ads:/ads quadricsoftware/a3-tool ads $bs $enc $hip");
+		echo shell_exec("sudo docker run -v /mnt/ads:/ads jericho991/a3-tool ads $bs $enc $hip");
 		exec("sudo docker volume rm alike_instaboot > /dev/null 2>&1");
 		echo "\nPress any key to continue";
 		fgets(STDIN);
 	}else{
 		exec("sudo chown -R alike.alike /mnt/ods");
-		echo shell_exec("sudo docker run -v /mnt/ods:/ods quadricsoftware/a3-tool ods");
+		echo shell_exec("sudo docker run -v /mnt/ods:/ods jericho991/a3-tool ods");
 	}
 }
 
@@ -1131,11 +1131,11 @@ function getNewItems($array, $search) {
 function getCurrentBuild(){
         $bld = "N/A";
 
-	$static = trim(shell_exec("grep \"image: quadricsoftware/alike-v7:\" /home/alike/docker-compose.yml | awk -F':' '{print \$NF}'"));
+	$static = trim(shell_exec("grep \"image: jericho991/alike_dave:\" /home/alike/docker-compose.yml | awk -F':' '{print \$NF}'"));
 	if(!empty($static)){
 		return $static;
 	}
-	$res =  trim(shell_exec("sudo docker ps | grep alike-v7"));
+	$res =  trim(shell_exec("sudo docker ps | grep alike_dave"));
         if(empty($res)){ return $bld; }
 
         $res =  trim(shell_exec("sudo docker-compose -f /home/alike/docker-compose.yml  exec alike cat /home/alike/Alike/build.num"));
