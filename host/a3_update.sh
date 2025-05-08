@@ -39,7 +39,7 @@ fi
 
 
 echo "Downloading latest A3 Host updates"
-wget -qO /tmp/a3.sys.tgz https://raw.githubusercontent.com/quadricsoftware/alike/main/host/a3.sys.tgz
+wget -qO /tmp/a3.sys.tgz https://raw.githubusercontent.com/jericho99/alike/main/host/a3.sys.tgz
 tar -zxf /tmp/a3.sys.tgz -C /usr/local/sbin/
 dos2unix /usr/local/sbin/makeSupportTar
 mv /usr/local/sbin/bashrc /home/alike/.bashrc
