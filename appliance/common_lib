@@ -284,12 +284,6 @@ function getSizeOfFiles($dir, $ext){
 
 function isLegacy(){ return false; }
 
-function testEmail(){
-	exec("/usr/local/sbin/emailUpdater");
-	$msg = "Howdy!";
-doMail("Test Email from Alike", "This is a test message.  Did it work?");
-}
-
 function sysmail($subject, $body, $force=false){
         $enabled = getSetting("enableWarningEmails");
 	if($force ==true){ $enabled = true;}
@@ -319,32 +313,10 @@ function priorityMail($subject, $body){
 	logmail($log);
 }
 
-//function doMail($to, $subject, $body, $isPriority=false){
-//	;
-//}
-function doMail($subject, $body, $isPriority=false){
-	$to = getSetting("smtpToAddress");
-	$from = getSetting("smtpUsername");
-
-
-$cont = "To: $to\n";
-$cont .= "Subject: $subject\n";
-$cont .= "MIME-Version: 1.0\r\n";
-$cont .= "Content-Type: text/html; charset=UTF-8\r\n";
-$cont .= "\r\n"; // Empty line to separate headers from body
-
-$cont .= "$body";
-$tmpFile = tempnam("/tmp/", "email_");
-file_put_contents($tmpFile, $cont);
-$cmd = "msmtp -t < $tmpFile 2>&1";
-//	$cmd = "printf \"From: $from\r\nTo: $to\r\nSubject: $subject\r\n\r\n$body\" | msmtp $from  2>&1";
-	exec("$cmd", $out, $code);
-
-	if($code !=0){
-			$err = implode("\n", $out);
-			throw new Exception("Failed to send test email to $to (Code: $code) Error: $err ");
-	}
+function doMail($to, $subject, $body, $isPriority=false){
+	;
 }
+
 function logmail($msg){
 	$file = "/home/alike/logs/mail.log";
 	file_put_contents($file, $msg, FILE_APPEND);
