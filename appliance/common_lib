@@ -284,58 +284,35 @@ function getSizeOfFiles($dir, $ext){
 
 function isLegacy(){ return false; }
 
-function testEmail(){
-	exec("/usr/local/sbin/emailUpdater");
-	$msg = "Howdy!";
-doMail("Test Email from Alike", "This is a test message.  Did it work?");
-}
 
 function sysmail($subject, $body, $force=false){
-//        $enabled = getSetting("enableWarningEmails");
-	$enabled = true;
+        $enabled = getSetting("enableWarningEmails");
 	if($force ==true){ $enabled = true;}
 	if(!$enabled){ return false; }
-	
-	priorityMail($subject, $body);
 
+        $to = getSetting("smtpToAddress");
+	$inf = getSubInfo();
+	$to = $inf->ownerEmail;
+	if($to != ""){
+		$s = getSubInfo();
+		$aname = $s->a3Name;
+		$subject .= " [$aname]";
+		$resp = doMail($to, $subject, $body);
+		$log = "Successfully sent email ($subject) to: $to ($resp->message)\n";
+               if($resp->result == "error"){ $log = "Error sending email ($subject): $resp->message\n"; }
+		logmail($log);
+		return $resp;
+	}
+	return false;
 }
-//function sysmail($subject, $body, $force=false){
-//        $enabled = getSetting("enableWarningEmails");
-//	if($force ==true){ $enabled = true;}
-//	if(!$enabled){ return false; }
-//
-//        $to = getSetting("smtpToAddress");
-//	$inf = getSubInfo();
-//	$to = $inf->ownerEmail;
-//	if($to != ""){
-//		$s = getSubInfo();
-//		$aname = $s->a3Name;
-//		$subject .= " [$aname]";
-//		$resp = doMail($to, $subject, $body);
-//		$log = "Successfully sent email ($subject) to: $to ($resp->message)\n";
-//               if($resp->result == "error"){ $log = "Error sending email ($subject): $resp->message\n"; }
-//		logmail($log);
-//		return $resp;
-//	}
-//	return false;
-//}
 
 // send email to the subscription owner
-// function priorityMail($subject, $body){
-// 	$resp = doMail(null, $subject, $body, true);
-// 	$log = "Successfully sent email ($subject) to: <subscription owner> ($resp->message)\n";
-// 	if($resp->result == "error"){ $log = "Error sending email ($subject): $resp->message\n"; }
-// 	logmail($log);
-// }
-function priorityMail($subject, $body){
-	$log = "Successfully sent email ($subject)\n";
-	try{
-		$resp = doMail($subject, $body, true);
-	}catch(Exception $ex){
-		$log = "Email ($subject) failed to send!  Err: ". $ex->getMessage();
-	}
-	logmail($log);
-}
+ function priorityMail($subject, $body){
+ 	$resp = doMail(null, $subject, $body, true);
+ 	$log = "Successfully sent email ($subject) to: <subscription owner> ($resp->message)\n";
+ 	if($resp->result == "error"){ $log = "Error sending email ($subject): $resp->message\n"; }
+ 	logmail($log);
+ }
 
 //function doMail($to, $subject, $body, $isPriority=false){
 //	;
