@@ -63,10 +63,10 @@ echo "0 2 * * *    /usr/local/sbin/docker-clean.sh 2&>1 > /dev/null" | crontab -
 if [ ! -f "/home/alike/docker-compose.yml" ]; then
 	echo "Downloading Alike default contigs"
 	wget -qO /home/alike/docker-compose.yml https://raw.githubusercontent.com/jericho99/alike/main/docker/docker-compose.yml 
-else
-echo "Downloading Alike default contigs"
-echo "Existing docker-compose.yml found.  Downloading latest version..."
+else 
+	echo "Existing docker-compose.yml found.  Downloading default config."
 	wget -qO /home/alike/docker-compose.yml https://raw.githubusercontent.com/jericho99/alike/main/docker/docker-compose.yml 
+
 fi
 wget -qO - 'https://raw.githubusercontent.com/jericho99/alike/main/host/a3.rev.num' > /usr/local/sbin/rev.num
 echo 
