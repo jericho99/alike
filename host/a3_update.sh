@@ -64,7 +64,9 @@ if [ ! -f "/home/alike/docker-compose.yml" ]; then
 	echo "Downloading Alike default contigs"
 	wget -qO /home/alike/docker-compose.yml https://raw.githubusercontent.com/jericho99/alike/main/docker/docker-compose.yml 
 else
-	echo "Existing docker-compose.yml found.  Skipping update, using existing config."
+echo "Downloading Alike default contigs"
+echo "Existing docker-compose.yml found.  Downloading latest version..."
+	wget -qO /home/alike/docker-compose.yml https://raw.githubusercontent.com/jericho99/alike/main/docker/docker-compose.yml 
 fi
 wget -qO - 'https://raw.githubusercontent.com/jericho99/alike/main/host/a3.rev.num' > /usr/local/sbin/rev.num
 echo 
